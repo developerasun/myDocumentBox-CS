@@ -1,114 +1,21 @@
-# My Open Code Box
-This is a open code box of developerasun, containing the sum of his blood, sweat, and tears. The list is as follows :  
+# 컴퓨터 사이언스 필수 과목 정리
+주말을 이용해 컴퓨터 공학 과목들을 공부하고 그 내용을 공유하는 저장소입니다.
 
-## Convention
-<details>
-  <summary>✅Commit</summary>
+## CS 학습 리스트
+- [X] [유데미 - 반드시 알고 넘어가야 하는 웹 기술 기초(HTTP)](https://www.udemy.com/course/web-technology-fundamentals/)
+- [X] [유데미 - 네트워크 기초(영문)](https://www.udemy.com/course/networking-concepts-for-beginners/learn/lecture/6060530?start=15#overview)
+- [X] [인프런 - 컴알못이 보는 컴퓨터 하드웨어 기초상식](https://www.inflearn.com/course/%EC%BB%B4%ED%93%A8%ED%84%B0-%ED%95%98%EB%93%9C%EC%9B%A8%EC%96%B4-%EA%B8%B0%EC%B4%88%EC%83%81%EC%8B%9D/dashboard) 
+- [X] [Web Dev Simplified - 디자인 패턴(영문)](https://youtube.com/playlist?list=PLZlA0Gpn_vH_CthENcPCM0Dww6a5XYC7f) 
+- [X] [Neso Academy - 운영체제 (영문)](https://youtube.com/playlist?list=PLBlnK6fEyqRiVhbXDGLXDk_OQAeuVcp2O)
+- [X] [Neso Academy - 데이터베이스 (영문)](https://www.youtube.com/playlist?list=PLBlnK6fEyqRi_CUQ-FXxgzKQ1dwr_ZJWZ) 
+- [ ] [Neso Academy - 컴퓨터 네트워크 (영문)](https://youtube.com/playlist?list=PLBlnK6fEyqRgMCUAG0XRw78UA8qnv6jEx) ☜ 2022.02 진행 중
+- [ ] [Neso Academy - 자료구조 (영문)](https://youtube.com/playlist?list=PLBlnK6fEyqRj9lld8sWIUNwlKfdUoPd1Y) ☜ 2022.02 진행 중 
+- [ ] [Neso Academy - 암호학과 네트워크 보안(영문)](https://youtube.com/playlist?list=PLBlnK6fEyqRgJU3EsOYDTW7m6SUmW6kII)
+- [ ] [Stanford - 스탠포드 CS 101 프로그래밍 방법론 (영문)](https://youtu.be/KkMDCCdjyW8)
+- [ ] [유튜브 - 이산수학 (영문)](https://youtube.com/playlist?list=PLBlnK6fEyqRhqJPDXcvYlLfXPh37L89g3)
+- [ ] [유튜브 - 프로그래머를 위한 수학 (영문)](https://youtube.com/playlist?list=PLWKjhJtqVAbndUuYBE5sVViMIvyzp_dB1)
 
-- feat: functionality added
-- fix: bug fixed, minor changes
-- chore: installing npms and other chores
-- refactor: refactoring existing codes
-- docs: readme and other markdowns
-</details>
-
-## Working on
-- Currently focusing on : React, Typescript, Redux
-- Should work on : regular expression
-
-## Inputs
-
-<details>
-  <summary>✅Front End</summary>
-
-- myCSS, myHTML, myJavascript
- 
-</details>
-
-<details>
-  <summary>✅Backend</summary>
-
-- myJavascript
- 
-</details>
-
-<details>
-  <summary>✅Deploy</summary>
-
-- myCloud, myDeploy
- 
-</details>
-
-<details>
-  <summary>✅Teamwork</summary>
-
-- myCollaboration
- 
-</details>
-
-<details>
-  <summary>✅Computer Science</summary>
-
-- myCSknowledge
- 
-</details>
-
-## Outputs
-<details>
-  <summary>✅React</summary>
-
-- useQuery
-
-https://user-images.githubusercontent.com/83855174/147634315-666ef3ca-0da4-48b6-872d-b1eb65c58849.mp4
-
-- useInfiniteQuery
-
-https://user-images.githubusercontent.com/83855174/147634099-17cb1699-6546-4ebe-9cc8-114ebce124e6.mp4
-
-- redux-react 
-  
-https://user-images.githubusercontent.com/83855174/151017399-762dc0b3-4431-4a06-b06b-e621879632a8.mp4
-
-</details>
-
-<details>
-  <summary>✅Node js </summary>
-
-- blog app
-
-https://user-images.githubusercontent.com/83855174/147804554-432cd627-18e8-4782-84a7-61e320723881.mp4
-
-- chat app
-
-https://user-images.githubusercontent.com/83855174/147804564-eb674c38-6b9c-41d1-8202-7ddee9f595f1.mp4
-
-- login 
-  
-https://user-images.githubusercontent.com/83855174/150134828-dc3ddf5b-a9ed-4c2a-87f5-d7dd44494417.mp4
-
-- Google Oauth
-
-https://user-images.githubusercontent.com/83855174/148180423-bb9b98ce-be5e-49b3-92ee-01dde36b91d2.mp4
-
-- Netlify serverless
-
-https://user-images.githubusercontent.com/83855174/148397581-6bd6ccef-3d55-4e3a-abc2-9485c9a1eff2.mp4
-  
-</details>
-
-<details>
-  <summary>✅Unity</summary>
-
-- [Jumping Car](https://simmer.io/@developerasun/jumpingcar2)
-
-https://user-images.githubusercontent.com/83855174/149626441-13895188-baf7-4561-8b6a-23fd59d67749.mp4
-  
-</details>
-
-
-## Contact
-[![Gmail Badge](https://img.shields.io/badge/Gmail-d14836?style=flat-square&logo=Gmail&logoColor=white&link=mailto:designerasun@gmail.com)](mailto:designerasun@gmail.com)
-
-## License 
-- This project is Apache-licensed.
-- Copyright © 2021 All right reserved [Jake Sung](https://github.com/developerasun) 
+## 연락처
+```
+nellow1102@gmail.com
+```
