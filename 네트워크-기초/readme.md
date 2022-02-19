@@ -578,7 +578,7 @@ tracert 명령어는 A 호스트(default gateway)에서 B 호스트로 패킷(�
 
 <img src="reference/network-repeater.jpg" width=432 height=342 alt="네트워크 리피터" />
 
-1. hub : LAN & layer1 기기, 수신 받은 것을 송신하는 역할()
+1. hub : LAN & layer1 기기, 수신 받은 것을 송신하는 역할
 
 1. switch : LAN & layer2 기기, hub와 달리 MAC 주소에 기반해 패킷 송/수신 가능(MAC 주소 테이블 저장)
 
@@ -673,6 +673,57 @@ framing이란 링크 레이어의 핵심 역할 중 하나로, 네트워크 레�
 
 <img src="reference/data-link-layer-frame.jpg" width=416 height=110 alt="링크 레이어 프레임 구성" />
 
+#### Physical addressing
+> Physical addressing: After creating frames, the Data link layer adds physical addresses (MAC address) of the sender and/or receiver in the header of each frame.
+
+#### Flow control 
+Suppose device A is a fast sender(send 100 packets per sec) and device B is a slow receiver(receive 10 packets per sec). In this case, 90 pakcets will be lost. This is where flow control comes into play.
+
+> The data rate must be constant on both sides else the data may get corrupted thus, flow control coordinates the amount of data that can be sent before receiving acknowledgement.
+
+#### Access control 
+> When a single communication channel is shared by multiple devices, the MAC sub-layer of the data link layer helps to determine which device has control over the channel at a given time.
+
+#### Error control 
+> Data link layer provides the mechanism of error control in which it detects and retransmits damaged or lost frames.
+
+#### Data link sublayer
+데이터 링크 레이어는 1) LLC(logical link control) c) 2) MAC 2가지의 서브 레이어로 이루어져 있다. 
+
+<img src="reference/sublayer-llc-mac.png" width=547 height=505 alt="데이터 링크 레이어 서브 레이어 구성" />
+
+##### Logical link control sublayer
+logical link control 또는 data link control (DLC)라고 불리는 이 서브 레이어는 데이터 링크 레이어와 전/후 레이어(네트워크 레이어, 피지컬 레이어)의 커뮤니케이션을 관리한다. 
+
+- network layer <====(LLC/DLC, flow control)====> data link layer <====(LLC/DLC, flow control)====> physical layer
+
+##### MAC sublayer
+MAC 서브 레이어는 데이터 링크 레이어의 하부 서브 레이어를 구성하며, 1) framing 2) MAC addressing  3) error control을 담당한다. 주로 하드웨어에 의해 실행된다. 
+
+- framing : 패킷 송신 전 프레임 조립, 패킷 수신 후 프레임 해체
+
+<img src="reference/data-link-sub-layer-roles.png" width=520 height=351 alt="데이터 링크 서브 레이어별 역할" />
+
+### Framing 자세하게 알아보기
+송/수신자 노드 A, B는 동일한 프로토콜을 사용한다고 가정한다. 
+
+<img src="reference/protocol-consensus.png" width=731 height=265 alt="노드 간 프로토콜 협의" />
+
+1. 송신자 노드 A는 데이터 링크 레이어의 프레임 a를 피지컬 레이어 어댑터에게 전송한다. 
+1. 피지컬 레이어 어댑터는 프레임 a를 시그널 a로 변환한다. 
+1. 피지컬 레이어 어댑터는 시그널 a를 수신자 노드 B에게 전송한다. 
+1. 수신자 노드 B의 피지컬 레이어 어댑터는 시그널 a를 수신한다. 
+1. 수신자 노드 B의 피지컬 레이어 어댑터는 시그널 a를 프레임 b으로 변환한다. 
+1. 수신자 노드 B의 데이터 링크 레이어는 프레임 b를 수신한다. 
+
+단, 피지컬 레이어는 0과 1의 비트를 시그널로 변환하는 역할만 할 뿐 프레임 자체를 이해하지는 못한다. 
+
+<img src="reference/bit-flows-adaptor.png" width=594 height=157 alt="피지컬 레이어 어댑터간 비트 전송" />
+
+#### Framing error
+동일 프로토콜을 사용하는 노드 간 프레임 데이터를 잘못 parsing하는 경우 framing erorr가 발생할 수 있다.
+
+<img src="reference/framing-error.png" width=704 height=322 alt="프레이밍 에러" />
 
 
 ## 레퍼런스
@@ -691,3 +742,4 @@ framing이란 링크 레이어의 핵심 역할 중 하나로, 네트워크 레�
 - [Wikipedia : modem](https://en.wikipedia.org/wiki/Modem)
 - [Wikipedia : firewall](https://en.wikipedia.org/wiki/Firewall_(computing))
 - [Tutorials point : What are Repeaters in Computer Network?](https://www.tutorialspoint.com/what-are-repeaters-in-computer-network)
+- [Geeks for geeks : Layers of OSI Model](https://www.geeksforgeeks.org/layers-of-osi-model/#:~:text=Physical%20addressing%3A%20After%20creating%20frames,retransmits%20damaged%20or%20lost%20frames.)
