@@ -705,7 +705,7 @@ MAC 서브 레이어는 데이터 링크 레이어의 하부 서브 레이어를
 <img src="reference/data-link-sub-layer-roles.png" width=520 height=351 alt="데이터 링크 서브 레이어별 역할" />
 
 ### Framing 자세하게 알아보기
-송/수신자 노드 A, B는 동일한 프로토콜을 사용한다고 가정한다. 
+송/수신자 노드 A, B는 동일한 프로토콜을 사용한다고 가정한다. 노드 간에는 frame이 서로 교환되고, 노드들의 어댑터 간에는 bit가 서로 교환된다. 
 
 <img src="reference/protocol-consensus.png" width=731 height=265 alt="노드 간 프로토콜 협의" />
 
@@ -725,6 +725,49 @@ MAC 서브 레이어는 데이터 링크 레이어의 하부 서브 레이어를
 
 <img src="reference/framing-error.png" width=704 height=322 alt="프레이밍 에러" />
 
+> In serial communications, a framing error is the result of reading a data frame -- a string of symbols which are grouped in blocks -- at the wrong starting point. The symbols are bits and the blocks are bytes, ten bits in asynchronous transmission and eight in synchronous. 
+
+> A framing error in an asynchronous stream usually recovers quickly, but a framing error in a synchronous stream produces gibberish at the end of the packet. Framing errors can be detected with parity bits.
+
+#### Framing types
+프레임의 종류는 프레임의 크기에 따라 다음과 같이 분류된다. 
+
+1. Fixed-size framing : 전송되는 프레임 사이즈가 고정되어 따로 구분자가 필요없는 경우. 
+1. Variable-size framing : 프레임 사이즈가 가변적이므로 프레임의 앞/뒤에 따로 구분자가 필요한 경우 
+
+#### Framing approach
+프레이밍을 접근하는 방식은 아래와 같이 크게 2가지로 분류된다. 
+
+1. Bit oriented : 데이터는 비트들의 묶음으로 전송됨. 
+1. Byte oriented(character-oriented approach) : 프레이밍을 설정하는 관점 중에서 가장 클래식한 방법. 데이터는 바이트들의 묶음으로 전송되며 1) BISYNC 2) DDCMP 3) PPP 와 같은 프로토콜이 사용됨. 
+1. Clock based framing: mainly for optical network. e.g : SONET
+
+### High-level data link control(HDLC)
+HDLC는 데이터 링크 레이어에서 보편적으로 사용되는 프로토콜이다.
+
+> HDLC (High-level Data Link Control) is a group of protocols or rules for transmitting data between network points (sometimes called nodes).
+
+> In more technical terms, HDLC is a bit-oriented, synchronous data link layer protocol created by the International Organization for Standardization (ISO).
+
+#### Frame format
+HDLC 프로토콜에 기반한 데이터 링크 레이어 프레임은 아래와 같이 구성된다. 
+
+<img src="reference/HDLC-frame-format.png" width=713 height=173 alt="HDLC 프로토콜 프레임 구성" />
+
+1. beginning sequence : e.g 01111110, ending sequence와 동일. 데이터가 전송되지 않는 idle time에도 beginning/ending sequence는 전송되며, 이는 송/수신자 노드 간 시간을 싱크하는 효과를 가진다. 
+1. header : address and control field
+1. body : payload(variable size)
+1. CRC : cyclic redundancy check - error detection
+1. ending sequence : : e.g 01111110, beginning sequence와 동일
+
+HDLC 프레임 포맷은 다른 프레임 포맷의 기반이 된다. 
+
+#### Frame types
+HDLC의 프레임 종류는 아래와 같다. 
+
+1. I-frame : carrying information => first bit is 0
+1. S-frame : flow control, error control => first two bits is 10
+1. U-frame : miscellaneous tasks => first two bits is 11
 
 ## 레퍼런스
 - [Wikipedia : Wi-Fi](https://en.wikipedia.org/wiki/Wi-Fi)
@@ -743,3 +786,4 @@ MAC 서브 레이어는 데이터 링크 레이어의 하부 서브 레이어를
 - [Wikipedia : firewall](https://en.wikipedia.org/wiki/Firewall_(computing))
 - [Tutorials point : What are Repeaters in Computer Network?](https://www.tutorialspoint.com/what-are-repeaters-in-computer-network)
 - [Geeks for geeks : Layers of OSI Model](https://www.geeksforgeeks.org/layers-of-osi-model/#:~:text=Physical%20addressing%3A%20After%20creating%20frames,retransmits%20damaged%20or%20lost%20frames.)
+- [Tech target : HDLC (High-level Data Link Control)](https://www.techtarget.com/searchnetworking/definition/HDLC)
