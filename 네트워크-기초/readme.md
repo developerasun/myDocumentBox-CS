@@ -813,8 +813,76 @@ PPP is a data link layer protocol.
 1. checksum : error detection
 
 #### Character stuffing(byte stuffing)
+Character stuffing is the process of adding one extra byte whenever there is a flag sequence appear in the payload. 
 
+> In byte stuffing, special byte that is basically known as ESC (Escape Character) that has predefined pattern is generally added to data section of the data stream or frame when there is message or character that has same pattern as that of flag byte.
 
+<img src="reference/character-stuffing-ppp.png" width=686 height=430 alt="점대점 프로토콜 캐릭터 스터핑" />
+
+### Digital data communication message protocol (DDCMP)
+DDCMP's 프레임 형식은 아래와 같다. 
+
+<img src="reference/DDCMP-frame-format.png" width=681 height=156 alt="DDCMP 프레임 형식" />
+
+> A Transmission error can affect any bit pattern in the frame. If it corrupts the count field, then the end of frame would not be correctly detected by the receiver(framing error).
+
+### Error detection
+In the process of transferring data in network, there might some data loss/corruption for various reasons. The errors should be dealt for reliable communication in network.
+
+#### Types of error
+1. bit error : a single bit error, meaning one bit in the data has been changed. 
+
+<img src="reference/bit-error.png" width=628 height=159 alt="네트워크 비트 에러" />
+
+1. burst error : 2 or more bits in the data have been changed.
+
+<img src="reference/burst-error.png" width=538 height=280 alt="네트워크 버스트 에러" />
+
+#### Dealing with error
+네트워크 상에서 수신자 노드는 전송된 데이터에 오류가 있는지 체크해야 한다(error detection). 이를 위해 송신자 노드는 전송할 데이터에 추가적인 비트를 덧붙여 보내게 되고, 해당 비트를 중복 비트(redundant bits)라 부른다. 
+
+<img src="reference/error-detection-redundant-bits.png" width=504 height=324 alt="중복 비트 오류 체크" />
+
+수신자 노드는 송신자 노드가 보낸 중복 비트와 실제 받은 값을 알고리즘을 통해 체크하고, 동일한 경우 전송된 데이터를 수신한다. 
+
+오류가 존재하는 경우,
+
+1. 수신자는 송신자에게 데이터 재전송을 요청하거나, 
+1. 수신자는 error-correcting codes를 사용하여 에러를 수정한다.
+
+중복 비트를 체크하는 방법은 크게 아래 4가지로 분류된다. 
+
+1. VRC : vertical redundancy check 
+1. LRC : longitudinal redundancy check
+1. Checksum
+1. Cyclic redundancy check
+
+### Vertical redundancy check (VRC)
+VRC는 parity 검사로 불리기도 한다. VRC의 동작 원리를 이해하기 위해 아래와 같은 상황을 가정한다. 
+
+1. data to send : 1100001
+1. even parity generator counts how many 1 are in the data. In this case, there three ones. 
+1. VRC is 1 if the number of ones is odd, 0 if even. In this case, VRC becomes 1. 
+1. data transmitted : **1**1100001 (VRC + original data)
+
+<img src="reference/vertical-redundancy-check-example.png" width=575 height=308 alt="수직 중복 검사 예시" />
+
+#### VRC limitation
+수직 중복 검사는 single bit error를 잡아내는데는 용이하나, burst error 중 erorr 개수가 홀수인 경우 잡아내기가 어렵다는 단점이 있다.
+
+<img src="reference/vrc-limitation-example.png" width=699 height=123 alt="수직 중복 검사 오류 예시" />
+
+위 예시에서 sender가 보내는 데이터의 첫 비트는 VRC임을 고려하면, 원래 데이터는 1100001 임을 알 수 있다. 각각의 변경된 데이터의 경우
+
+1. 0100001 => 1의 개수가 짝수 개이므로 VRC는 0이어야 한다. receiver는 VRC를 통해 오류를 체크할 수 있다. 
+1. 0100101 => 1의 개수가 홀수 개이므로 VRC는 1이어야 한다. receiver는 실제 데이터와 변경된 데이터가 다름에도 불구하고 VRC 값이 동일하게 1이므로 VRC를 통해 오류를 체크할 수 없다.
+
+#### VRC exercise
+Append the parity bit after each block show below using VRC. 
+
+1. 1110110 => **1**1110110
+1. 1101111 => **0**1101111
+1. 1110010 => **0**1110010
 
 
 ## 레퍼런스
