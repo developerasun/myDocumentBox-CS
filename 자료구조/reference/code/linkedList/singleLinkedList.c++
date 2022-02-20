@@ -21,7 +21,7 @@ int main()
 
     // connect a first node to second one
     head->link = current;
-
+    
     // print first&second node data with head pointer
     printf("first : %d, second : %d", head->data, head->link->data);
     return 0;

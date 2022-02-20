@@ -9,18 +9,19 @@ struct node
 
 int main() {
     // initialize linked list head and set a first node.
-    struct node *head = malloc(sizeof(struct node));
+    
+    struct node *head = (struct node*)malloc(sizeof(struct node));
     head->data = 1; 
     head->link = NULL;
 
     // create a second node and connect with head
-    struct node *current = malloc(sizeof(struct node));
+    struct node *current = (struct node*)malloc(sizeof(struct node));
     current->data = 2; 
     current->link = NULL;
     head->link = current;
 
     // create a third node with second pointer
-    current = malloc(sizeof(struct node)); // type cast is not mandatory
+    current = (struct node*)malloc(sizeof(struct node)); // type cast is not mandatory
     current->data = 3;
     current->link = NULL; // currently only three nodes.
 
