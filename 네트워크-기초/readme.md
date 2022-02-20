@@ -754,11 +754,11 @@ HDLC 프로토콜에 기반한 데이터 링크 레이어 프레임은 아래와
 
 <img src="reference/HDLC-frame-format.png" width=713 height=173 alt="HDLC 프로토콜 프레임 구성" />
 
-1. beginning sequence : e.g 01111110, ending sequence와 동일. 데이터가 전송되지 않는 idle time에도 beginning/ending sequence는 전송되며, 이는 송/수신자 노드 간 시간을 싱크하는 효과를 가진다. 
-1. header : address and control field
+1. beginning sequence : 8 bits, e.g 01111110, ending sequence와 동일. 데이터가 전송되지 않는 idle time에도 beginning/ending sequence는 전송되며, 이는 송/수신자 노드 간 시간을 싱크하는 효과를 가진다. 
+1. header : 16 bits, address and control field
 1. body : payload(variable size)
-1. CRC : cyclic redundancy check - error detection
-1. ending sequence : : e.g 01111110, beginning sequence와 동일
+1. CRC : 16 bits, cyclic redundancy check - error detection
+1. ending sequence : 8 bits, e.g 01111110, beginning sequence와 동일
 
 HDLC 프레임 포맷은 다른 프레임 포맷의 기반이 된다. 
 
@@ -768,6 +768,54 @@ HDLC의 프레임 종류는 아래와 같다.
 1. I-frame : carrying information => first bit is 0
 1. S-frame : flow control, error control => first two bits is 10
 1. U-frame : miscellaneous tasks => first two bits is 11
+
+#### Bit stuffing
+비트 스터핑이란 데이터 링크 레이어상에서 노드 to 노드로 전송되는 프레임이 프레이밍 오류 없이 전송되도록 플래그 바이트(01111110)에 비트를 삽입하는 것을 의미한다. 
+
+> 데이터를 실은 프레임들의 경계를 구분하기 위해 통상 특정한 비트 배열(Preamble)을 갖는 플래그 바이트(01111110)라 불리는 경계를 나타내는 바이트를 사용하는데, 만일 실제 데이터 내부에 동일한 비트 배열이 있게 되는 경우를 방지하기 위해 의도적으로 5개의 1을 보내면서 다음 비트에 0을 삽입하는 비트 채우기(bit stuffing) 실시함. 
+
+<img src="reference/bit-stuffing.png" width=682 height=313 alt="비트 스터핑" />
+
+송신자 노드는 비트 스터핑을 실시(do bit stuffing)하고, 수신자 노드는 비트 스터핑을 해석함(undo bit stuffing).
+
+> Example of bit stuffing : After 5 consecutive 1-bits, a 0-bit is stuffed. Stuffed bits are marked bold.
+- Bit sequence without bit stuffing: 110101111101011111101011111110 
+- Bit sequence without bit stuffing: 1101011111**0**01011111**0**101011111**0**110 
+
+### Binary synchronous communication protocol(BSC, BISYNC)
+BISYNC is a byte-oriented approach.
+> The byte-oriented approach views the frame as a collection of the bytes or characters. e.g : 1) BISYNC 2) PPP 3) DDCMP
+
+<img src="reference/bisync-frame-format.png" width=695 height=309 alt="바이싱크 프레임 포맷" />
+
+1. BISYNC has two (BI) synchronous fields (SYNC, 8bits each) in the starting of the frame. These two fields are essential to spot the beginning of the frame.
+1. The third field is SOH (start of header) which of 8 bits, followed by fourth field – header.
+1. The fifth field is STX (start of text) which of 8 bits, followed by a body, of variable length.
+1. The body, is followed by ETX (end of text) which of 8 bits.
+1. CRC (cyclic redundancy check) is the last field of 16 bits, which is required for error detection.
+
+### Point to point protocol (PPP)
+PPP is a data link layer protocol. 
+
+> 점대점 프로토콜(영어: Point-to-Point Protocol, PPP)는 네트워크 분야에서 두 통신 노드 간의 직접적인 연결을 위해 일반적으로 사용되는 데이터 링크 프로토콜이다. 점대점 프로토콜은 인증, 암호화[1]를 통한 전송 및 데이터 압축 기능을 제공한다.
+
+> 점대점 프로토콜은 시리얼 케이블, 전화선, 트렁크 라인, 이동 통신망, 특별한 통신 링크(specialized radio link) 및 SONET과 같은 광통신망에서 사용 가능하다. 대부분의 ISP는 고객이 인터넷에서 접속하기 위한 다이얼 업 접속으로 점대점 프로토콜을 사용하도록 하고 있다. 
+
+> 점대점 프로토콜은 크게 PPPoE(Point-to-Point Protocol over Ethernet)과 PPPoA(Point-to-Point Protocol over ATM)으로 나뉘며, ISP는 DSL 인터넷 서비스를 위해 이 프로토콜을 사용한다.
+
+<img src="reference/ppp-frame-format.png" width=638 height=413 alt="ppp 프로토콜 프레임 포맷" />
+
+1. flag : always begins and ends with standard HDLC flag. It always has a value of 1 byte i.e., 01111110 binary value.
+1. address : 1 byte, 11111111, for broadcasting
+1. control : 1 byte, 00000011,  for a connection-less data link.
+1. protocol : 1 or 2 bytes,  identifies network protocol of the datagram
+1. data(payload) :  contains the upper layer datagram. Network layer datagram is particularly encapsulated in this field for regular PPP data frames. The maximum length of this field is 1500 bytes. 
+1. checksum : error detection
+
+#### Character stuffing(byte stuffing)
+
+
+
 
 ## 레퍼런스
 - [Wikipedia : Wi-Fi](https://en.wikipedia.org/wiki/Wi-Fi)
@@ -787,3 +835,6 @@ HDLC의 프레임 종류는 아래와 같다.
 - [Tutorials point : What are Repeaters in Computer Network?](https://www.tutorialspoint.com/what-are-repeaters-in-computer-network)
 - [Geeks for geeks : Layers of OSI Model](https://www.geeksforgeeks.org/layers-of-osi-model/#:~:text=Physical%20addressing%3A%20After%20creating%20frames,retransmits%20damaged%20or%20lost%20frames.)
 - [Tech target : HDLC (High-level Data Link Control)](https://www.techtarget.com/searchnetworking/definition/HDLC)
+- [정보통신기술용어해설 : 비트 스터핑](http://www.ktword.co.kr/test/view/view.php?m_temp1=954)
+- [위키백과 : 점대점 프로토콜](https://ko.wikipedia.org/wiki/%EC%A0%90%EB%8C%80%EC%A0%90_%ED%94%84%EB%A1%9C%ED%86%A0%EC%BD%9C)
+- [Geeks for geeks : Point-to-Point Protocol (PPP) Frame Format](https://www.geeksforgeeks.org/point-to-point-protocol-ppp-frame-format/#:~:text=PPP%20basically%20uses%20the%20same,before%20information%20or%20data%20field.&text=PPP%20frame%20similar%20to%20HDLC,ends%20with%20standard%20HDLC%20flag.)
