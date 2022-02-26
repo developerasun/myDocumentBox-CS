@@ -1,8 +1,5 @@
 # 자료 구조 기초
-아래 강좌들을 수강 후 중요 내용을 요약 및 정리함. 대부분의 요약은 한국어로 진행되나 편의상 영문으로 옮길 때가 있음. 
-
-- [Neso academy - data structure](https://www.youtube.com/playlist?list=PLBlnK6fEyqRj9lld8sWIUNwlKfdUoPd1Y)
-- [KodingKevin - Javascript Algorithms & Data Structures](https://www.youtube.com/watch?v=LuXCJxY7nPE&list=PLn2ipk-jqgZiAHiA70hOxAj8RMUeqYNK3&index=1)
+자료 구조 중요 내용을 요약 및 정리함. 대부분의 요약은 한국어로 진행되나 편의상 영문으로 옮길 때가 있음. 
 
 ## 자료 구조 실생활 활용 예시
 자료 구조가 사용된 예시는 아래와 같다. 
@@ -31,7 +28,24 @@
 head 부분만 새롭게 삽입된 원소를 가리켜 주면 된다. 이렇듯 자료 구조의 사용에 따라 operation의 효율성이 달라진다. 
 
 ## Pointers
-### Void pointer
+> Pointers store address of variables or a memory location. 
+> To access address of a variable to a pointer, we use the unary operator & (ampersand) that returns the address of that variable. For example &x gives us address of variable x. 
+
+### Benefits
+> Pointers give us abilities not available with static memory allocation and also provide new opportunities for efficient use of memory. The three main benefits of using pointers are:
+
+1. Runtime-sized data structures
+1. Resizable data structures
+1. Memory sharing
+
+<img src="reference/computer-memory-address.png" width="647" height="509" alt="로우레벨 컴퓨터 하이레벨 프로그래머 상호 작용" />
+
+> Pointers increase the processing speed. In other words, Execution time with pointers is faster because data are manipulated with the address, that is, direct access to memory location.
+
+<img src="reference/how-pointers-work.png" width="800" height="443" alt="포인터 원리" />
+
+### Types of pointers
+#### Void pointer
 void pointer란 지정된 데이터 타입이 없고 어떤 데이터 타입이라고 가리킬 수 있는 포인터를 말한다. 
 
 ```c++
@@ -56,7 +70,7 @@ int main() {
 }
 ```
 
-### Null pointer
+#### Null pointer
 null pointer란 유효하지 않은 메모리 할당을 나타낼 때 사용하는 포인터로, 어떠한 메모리도 가리키지 않는다. 
 
 ```c++
@@ -79,7 +93,7 @@ int main() {
 }
 ```
 
-### Dangling pointer
+#### Dangling pointer
 dangling pointer란 메모리 할당 해제 이후 존재하지 않는 메모리 영역을 가리키는 포인터를 말한다. 예를 들어, 
 
 ```c++
@@ -112,7 +126,7 @@ int main() {
 }
 ```
 
-### Wild pointer
+#### Wild pointer
 wild pointer란 초기화되지 않은 포인터를 의미한다. 초기화 되지 않은 포인터들은 program crash를 일으킬 수 있으므로 주의한다.
 
 ## 동적 메모리 할당
@@ -180,5 +194,23 @@ int main() {
 1. doubly linked list : navigation is forward/backward
 1. circular linked list : last element is linked to the first element
 
+### 링크드리스트 exercise
+링크드리스트에 새로운 노드를 추가하기 위해서는 기존 노드의 포인터가 새로운 노드를 가리켜야 한다. 
+
+<img src="reference/connect-new-node.png" width="707" height="277" alt="싱글 링크드 리스트 노드 추가" />
+
+링크드리스트 앞/뒤로 노드를 추가하기 위해 작성한 코드 예제는 아래 디렉토리에서 확인할 수 있다.
+
+1. reference/code/linkedList/insertion
+1. reference/code/linkedList/traversing
+
+## Double pointer
+> We already know that a pointer points to a location in memory and thus used to store the address of variables. So, when we define a pointer to pointer. The first pointer is used to store the address of the variable. And the second pointer is used to store the address of the first pointer. That is why they are also known as double pointers.
+
+
 ## Reference
+- [Neso academy - data structure](https://www.youtube.com/playlist?list=PLBlnK6fEyqRj9lld8sWIUNwlKfdUoPd1Y)
 - [programiz - C++ malloc](https://www.programiz.com/cpp-programming/library-function/cstdlib/malloc)
+- [Geeks for geeks - Pointers in C and C++ | Set 1 (Introduction, Arithmetic and Array)](https://www.geeksforgeeks.org/pointers-in-c-and-c-set-1-introduction-arithmetic-and-array/)
+- [Geeks for geeks - Double Pointer (Pointer to Pointer) in C](https://www.geeksforgeeks.org/double-pointer-pointer-pointer-c/)
+- [Medium - C++ Pointers](https://medium.com/@derya.cortuk/c-pointers-683d0e39c650#:~:text=Why%20Use%20Pointers,one%20value%20from%20the%20function.)
