@@ -884,6 +884,71 @@ Append the parity bit after each block show below using VRC.
 1. 1101111 => **0**1101111
 1. 1110010 => **0**1110010
 
+- 데이터 내의 1의 개수가 홀수일 경우 parity bit는 1이 된다. 
+- 데이터 내의 1의 개수가 짝수일 경우 parity bit는 0이 된다. 
+
+### Longitudinal redundancy check (LRC)
+> In telecommunication, a longitudinal redundancy check (LRC), or horizontal redundancy check, is a form of redundancy check that is applied independently to each of a parallel group of bit streams. The data must be divided into transmission blocks, to which the additional check data is added.
+
+<img src="reference/calculate-lrc.png" width=747 height=320 alt="세로 중복 검사 예시" />
+
+위 그림에서 알 수 있듯, 세로 중복 검사(Longitudinal redundancy check)는 가로/세로의 2차원 배열 형태의 비트들을 칼럼을 기준으로 계산하게 된다. 계산된 LRC는 전송되는 데이터의 가장 앞에 부착된다. 
+
+<img src="reference/lrc-data-direction.png" width=611 height=145 alt="LRC 부착 데이터 전송" />
+
+#### Exercise
+1) Find the LRC for the data blocks below.
+2) Define the data to transmit
+
+- 1st row: 01110111
+- 2nd row: 10101001
+- 3rd row: 01101001
+- 4th row: 10101010
+
+LRC is 00011101, and data to transmit is 00011101 10101010 01101001 10101001 01110111. 
+
+### Checksum 
+Checksum is used to check sum.
+
+1. The data is divided into k segments each of m bits.
+1. Sum all the k number of blocks.
+1. Add the carry to the sum, if any.
+1. Do 1's complement to the sum ====> checksum
+
+<img src="reference/how-checksum-is-generated.png" width=668 height=441 alt="how checksum works" />
+
+체크섬은 아래와 같이 송신자 노드에서 계산된 후 전송 데이터에 부착되어 수신자 노드에게 전달된다. 데이터 블락의 합을 구할 때 carry가 발생할 경우 carry를 포함해 다시 연산하고, 연산된 결과에 1의 보수를 구하면 checksum이 된다.
+
+<img src="reference/data-block-carry-checksum.png" width=740 height=441 alt="체크섬 계산 및 전송" />
+
+수신자 노드는 송신자 노드와 동일한 과정을 거쳐 checksum을 계산하고, checksum의 결과가 모두 0일 경우 데이터를 받아들인다. checksum은 일반적으로 대부분의 에러를 찾아낼 수 있어 효과적이나 둘 이상의 데이터 블락이 손상되어 해당 세로 합이 변하지 않는 경우 에러를 탐지할 수 없다는 단점이 존재한다. 
+
+<img src="reference/receiver-complment-zero.png" width=609 height=570 alt="수신자 노드 checksum 수신" />
+
+### Cyclic redundancy check (CRC)
+CRC는 다음과 같은 방식으로 구해진다. 
+
+1. Find the length of the divisor L.
+1. Append 0 as much as 'L-1' bits to the original message.
+1. Perform binary division with the divisor and result of step 2(original message + L-1 bits)/(divisor)
+1. Get the remainder, which is CRC. 
+
+<img src="reference/calculated-crc.png" width=639 height=419 alt="이진 나눗셈의 나머지 : CRC" />
+
+#### Exercise
+Find the CRC for 1110010101 with the divisor x3+x2+1.  
+
+1. divisor : 1101
+1. original message + 0 (L-1 times) : 1110010101 + 000
+1. use this [binary calculator](https://www.calculator.net/binary-calculator.html?number1=1110010101000&c2op=%2F&number2=1101&calctype=op&x=0&y=0) to perform binary division.
+1. calculated remainder is : 100
+1. data to transmit is : 1110010101**100**
+
+=> compare if this answer is correct later. 
+
+
+
+
 
 ## 레퍼런스
 - [Wikipedia : Wi-Fi](https://en.wikipedia.org/wiki/Wi-Fi)
