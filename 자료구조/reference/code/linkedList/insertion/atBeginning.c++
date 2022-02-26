@@ -12,12 +12,6 @@ struct node {
     struct node *link;
 };
 
-struct node* initHead() {
-    struct node *head= (struct node*)malloc(sizeof(struct node));
-    head->link = NULL;
-    return head;
-}
-
 struct node* createNode(struct node *prev) {
     struct node *newNode= (struct node*)malloc(sizeof(struct node)); // create a new node
     newNode->link = NULL; // new node pointer initialization
@@ -52,7 +46,6 @@ int main() {
     cout << "Expected result is 999";
     cout << "\n";
     cout << head->link->data; // expected result : 999
-
 
     return 0;
 }

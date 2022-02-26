@@ -1,6 +1,5 @@
 // exercise : create a single linked list
 // and add a node at the end of it with time complexity O(1)
-
 #include <corecrt_malloc.h>
 #include <stdio.h>
 #include <stdlib.h>
