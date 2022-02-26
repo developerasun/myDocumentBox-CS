@@ -1,4 +1,3 @@
-#include <corecrt_malloc.h>
 #include<stdio.h>
 #include<stdlib.h>
 

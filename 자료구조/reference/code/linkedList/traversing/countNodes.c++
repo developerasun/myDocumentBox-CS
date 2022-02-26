@@ -1,4 +1,3 @@
-#include <corecrt_malloc.h>
 #include<stdio.h>
 #include<stdlib.h>
 
@@ -22,6 +21,7 @@ struct node* createNode(int _data) {
     return ptr;
 }
 
+// time complexity : O(n)
 void countNode(struct node *ptr) {
     int count = 0; 
     while (ptr->link != NULL) {

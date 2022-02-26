@@ -4,7 +4,7 @@
 int main() {
     int i, n;
     printf("How many integers?");
-    scanf("%d", &n);
+    scanf_s("%d", &n);
 
     int *ptr = (int*)malloc(n*sizeof(int));
 
@@ -15,14 +15,23 @@ int main() {
     
     for (i=0; i<n; i++) {
         printf("Enter an integer : "); 
-        scanf("%d", ptr + i);
+        scanf_s("%d", ptr + i);
     }
 
-    for (i=0; i<n; i++) { 
+    // memory reallocation
+    ptr = (int*)realloc(ptr, (n+2)*sizeof(int));
+
+    for (i=n; i<n+2; i++) {
+        printf("Enter two more integers : "); 
+        scanf_s("%d", ptr + i);
+    }
+
+    for (i=0; i<n+2; i++) { 
         printf("%d", *(ptr+i));
     }
 
     free(ptr); 
     ptr = NULL;
+    
     return 0;
 }
