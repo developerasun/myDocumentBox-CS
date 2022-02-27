@@ -510,7 +510,7 @@ nslookup(name server lookup) 명령어는 DNS(Domain Name System) 서버에게 �
 네트워크 상의 노드 간의 데이터 송/수신은 mac(데이터 링크 레이어), ip(네트워크 레이어) 정보 모두를 필요로 하므로, 유저가 url만을 입력하더라도 DNS 서버가 IP주소를 찾아서 제공하므로 송/수신이 가능해진다.  
 
 #### Ping
-> A ping (Packet Internet or Inter-Network Groper) is a basic Internet program that allows a user to test and verify if a particular destination IP address exists and can accept requests in computer network administration. The acronym was contrived to match the submariners' term for the sound of a returned sonar pulse.
+> A ping (Packet Internet or Inter-Network Groper) is a basic Internet program that allows a user to test and **verify if a particular destination IP address exists and can accept requests** in computer network administration. The acronym was contrived to match the submariners' term for the sound of a returned sonar pulse.
 
 > Ping is also used diagnostically to ensure that a host computer the user is trying to reach is operating. Any operating system (OS) with networking capability, including most embedded network administration software, can use ping.
 
@@ -946,8 +946,111 @@ Find the CRC for 1110010101 with the divisor x3+x2+1.
 
 => compare if this answer is correct later. 
 
+### Network performance
+네트워크의 성능은 다음과 같은 세 가지로 평가된다. 
 
+1. bandwidth
+1. throughput
+1. latency
 
+#### Bandwidth
+> The maximum amount of data transmitted over an internet connection in a given amount of time. Bandwidth is often mistaken for internet speed when it's actually the volume of information that can be sent over a connection in a measured amount of time – calculated in megabits per second (Mbps).
+
+The bandwidth of a network is given by the number of bits. For example, 
+
+- Gigabit Ethernet can provide a bandwidth of 1Gbps(1GB bit per second).
+
+> If you have multiple devices and several family members on them at the same time, you'll need more bandwidth to keep up. Streaming, gaming and other high-capacity activities demand a certain amount of bandwidth speed to get the best experience without a lot of buffering or lag. And the more bandwidth your internet provider is able to deliver, the faster you’ll get to do your thing.
+
+> The FCC provides a set of guidelines for Mbps needed based on digital activity. For example, if you love to stream 4K content, you'll need 25 Mbps at the very minimum and 4-25 Mbps for telecommuting or gaming.
+
+Check your bandwidth coverage at [this website](https://www.speedtest.net/result/12821659271)
+
+#### Throughput
+> When used in the context of communication networks, such as Ethernet or packet radio, throughput or network throughput is the rate of successful message delivery over a communication channel. The data these messages belong to may be delivered over a physical or logical link, or it can pass through a certain network node. 
+
+Throughput is an actual amount of data that passes through the medium.
+
+> Throughput is usually measured in bits per second (bit/s or bps), and sometimes in data packets per second (p/s or pps) or data packets per time slot.
+
+Note that bandwidth in bps(bit per second) is always bigger than throughput in bps(bit per second). For example, 
+
+- If network A provides 1Mbps(1MB bit per second) and devices connected to handle 200Kbps(200KB bit per second). We only can send 200KB per second through the devices. 
+
+#### Latency
+> Latency is the time it takes for data to pass from one point on a network to another. Suppose Server A in New York sends a data packet to Server B in London. Server A sends the packet at 04:38:00.000 GMT and Server B receives it at 04:38:00.145 GMT. The amount of latency on this path is the difference between these two times: 0.145 seconds or 145 milliseconds.
+
+> One of the principal causes of network latency is distance, specifically the distance between client devices making requests and the servers responding to those requests. If a website is hosted in a data center in Columbus, Ohio, it will receive requests fairly quickly from users in Cincinnati (about 100 miles away), likely within 5-10 milliseconds. On the other hand, requests from users in Los Angeles (about 2,200 miles away) will take longer to arrive, closer to 40-50 milliseconds.
+
+##### Components of latency
+latency is made of four components. 
+
+1. transmission delay : the amount of time for a sender node to prepare data packet for transmission. 
+
+<img src="reference/latency-transmission-delay.png" width=717 height=171 alt="전송 지연 레이턴시" />
+
+transmission time is calculated like below. 
+
+- message size / bandwidth
+
+1. propagation delay : the amount of time for a bit to go from sender node to receiver node.
+
+propagation time is calculated like below. 
+
+- distance / propagation speed 
+
+1. queuing delay : the amount of time for each node to hold message before processing it. queuing delay varies upon network loads.
+
+1. processing delay : the amount of time for a node to take for processing. 
+
+Mainly, latency is calculated based on transmission delay and propagation delay. 
+
+You can check how transmission/propagation delay works in [this website](https://media.pearsoncmg.com/aw/ecs_kurose_compnetwork_7/cw/content/interactiveanimations/transmission-vs-propogation-delay/transmission-propagation-delay-ch1/index.html) based on interactive animation. 
+
+#### Bandwidth-delay product
+> Bandwidth delay product is a measurement of how many bits can fill up a network link. It gives the maximum amount of data that can be transmitted by the sender at a given time before waiting for acknowledgment. Thus it is the maximum amount of unacknowledged data.
+
+Let's assume that there is a pipe for data transmission in network. Between node A and node B, the pipe delivers data(packet). The capability of the pipe is calculated by multiplying bandwidth with delay. 
+
+<img src="reference/bandwidth-delay-capability.png" width=713 height=151 alt="파이프 수용 능력 측정" />
+
+#### Round trip time(RTT)
+> Round Trip Time (RTT) is the length time it takes for a data packet to be sent to a destination plus the time it takes for an acknowledgment of that packet to be received back at the origin. The RTT between a network and server can be determined by using the ping command.
+
+```shell
+$ping example.com
+```
+
+For example, the round trip time is to www.google.com from my laptop is, 
+
+<img src="reference/ping-round-trip-time.png" width=595 height=263 alt="pinging to google to get RTT" />
+
+Note that round trip time is calculated approximately since the amount of time from sender to receiver can be different from that of from receiver to sender. 
+
+<img src="reference/approximate-rtt.png" width=617 height=296 alt="RTT calculation" />
+
+### Flow control
+Flow control is one of the functionality in data link layer. It adjusts data transmission speed between different nodes to make sure that there is no data loss.
+
+1. sender node is informed how much data it can transmit before. 
+1. receiver node informs the limit and request to stop transmission if needed.
+
+#### Stop and wait protocol
+It is done like below. 
+
+In sender side, 
+1. send one data packet at a time. 
+1. send the next packet only after receiving acknowledgement for the previous packet.
+
+In receiver side, 
+1. receive and consume data packet. 
+1. send acknowledgement after consuming the packet.
+
+The drawback of stop and wait protocol is that there might be a deadlock-ish situation bewteen sender and receiver if data/acknowledgement is lost for some reason. 
+
+<img src="reference/stop-and-wait-deadlock.png" width=437 height=386 alt="drawback of stop and wait protocol" />
+
+In addition, if acknowledge is received after timeout, sender might perceive it to belong to some other data packet's acknowledgement. 
 
 
 ## 레퍼런스
@@ -971,3 +1074,6 @@ Find the CRC for 1110010101 with the divisor x3+x2+1.
 - [정보통신기술용어해설 : 비트 스터핑](http://www.ktword.co.kr/test/view/view.php?m_temp1=954)
 - [위키백과 : 점대점 프로토콜](https://ko.wikipedia.org/wiki/%EC%A0%90%EB%8C%80%EC%A0%90_%ED%94%84%EB%A1%9C%ED%86%A0%EC%BD%9C)
 - [Geeks for geeks : Point-to-Point Protocol (PPP) Frame Format](https://www.geeksforgeeks.org/point-to-point-protocol-ppp-frame-format/#:~:text=PPP%20basically%20uses%20the%20same,before%20information%20or%20data%20field.&text=PPP%20frame%20similar%20to%20HDLC,ends%20with%20standard%20HDLC%20flag.)
+- [Verizon : Bandwidth](https://www.verizon.com/info/definitions/bandwidth/#:~:text=The%20maximum%20amount%20of%20data,megabits%20per%20second%20(Mbps))
+- [Throughput : Wikipedia](https://en.wikipedia.org/wiki/Throughput#:~:text=In%20general%20terms%2C%20throughput%20is,delivery%20over%20a%20communication%20channel.)
+- [Cloudflare : What is latency? | How to fix latency](https://www.cloudflare.com/learning/performance/glossary/what-is-latency/#:~:text=Latency%20is%20the%20time%20it,to%20Server%20B%20in%20London.)
