@@ -30,6 +30,20 @@ Types of security attacks are as follows.
 
 <img src="reference/active-attack-modify-messages.png" width=736 height=412 alt="active attack" />
 
+### Security service
+There are five types of security services, which is : 
+
+1. authentication : peer entity(confirms data is coming from approved routers in network) / data origin(receiver confirms data is coming from approved sender)
+1. access control : decides who can access to a certain data
+1. data confidentiality : ensure data is encrypted for privacy
+1. data integrity : data is intact and not changed from initial state
+1. nonrepudiation : security system should be able to confirm each sender and receiver did what they did so that they could not contradict. 
+
+### Security mechanism
+There two types oof security mechanisms, which is : 
+
+1. specific security mechanism : encipherment with mathmatical algorithms, digital signature, access control, data integrity, traffic padding
+1. pervasive security mechanism : trusted functionality, security label, event detection
 
 ## Reference 
 - [Neso academy : cryptography and network security](https://www.youtube.com/watch?v=JoeiLuFNBc4&list=PLBlnK6fEyqRgJU3EsOYDTW7m6SUmW6kII&index=1)
