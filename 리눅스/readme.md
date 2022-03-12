@@ -30,6 +30,16 @@
 
 1. Cloud : Ubuntu is the reference OS for OpenStack. Try Canonical OpenStack on a single machine or start building a production cloud on a cluster — just add servers.
 
+### Why Ubuntu?
+1. Provides the fastest route from development to deployment on desktop, mobile, server or cloud
+1. Offers the broadest and best development tools and libraries
+1. Has all the most popular productivity apps such as Slack, Skype, Telegram and Discord, available in the snap store
+1. Features official snaps for Visual Studio Code and the JetBrains suite of IDEs
+1. Makes for hassle free gaming and AI development with NVIDIA GPUs supported out the box
+1. Certified AI and developer laptops and workstations are available from Dell, Lenovo and HP – get a seamless, pre-installed Ubuntu experience
+1. The lightweight OS runs natively or in a VM, ideal for any resource-intensive environment, from data mining to large-scale financial modelling
+1. 66% of experienced developers prefer Ubuntu
+
 ## Installation
 Go to Microsoft store and install Ubuntu LTS. 
 
@@ -43,7 +53,7 @@ Go to Microsoft store and install Ubuntu LTS.
 
 > This app installs the Ubuntu 20.04 LTS release on Windows. Please note that app updates don't change the Ubuntu installation. To upgrade to a new release please run do-release-upgrade in the Ubuntu Terminal.
 
-### Basic commands
+## Basic commands
 - pwd : print working directory
 ```shell
 # /root/jake
@@ -54,10 +64,20 @@ $pwd
 
 ```shell 
 # list all items in root
-$ls / 
+$ls /
+# list all items including hidden ones
+$ls -a
 ```
 
 - mkdir : make a directory
+
+```shell
+# single directory
+$mkdir jake
+# nested directories
+$mkdir -p jake/is/awesome
+```
+
 - rmdir : remove a directory
 - clear : clear terminal
 - cd : change directory
@@ -76,6 +96,8 @@ $cd ~
 $touch test.txt
 # remove the file 
 $rm test.txt
+# remove recursively(remove anything inside the directory)
+$rm -r testDir
 ```
 
 - cat : read a file
@@ -105,10 +127,144 @@ Linux makes a file hidden when the file name is prefixed with '.'. For example,
 ```
 </details>
 
+- cp : copy files and directories. (thing to copy / where to copy)
 
+```shell
+# copy linux.txt to copyDir
+$cp linux.txt ./copyDir
+
+# copy recursively
+$cp -r myDir ./newMyDir
+```
+
+- nano : call nano editor and start editing.
+
+```shell
+# edit linux.txt with nano editor
+$nano linux.txt
+```
+
+<img src="reference/nano-editor.png" width=581 height=491 alt="nano editor in Ubuntu" />
+
+## Shell feature
+> In Linux, stdin is the standard input stream. This accepts text as its input. Text output from the command to the shell is delivered via the stdout (standard out) stream. Error messages from the command are sent through the stderr (standard error) stream.
+
+> These values are always used for stdin, stdout, and stderr
+
+- 0: stdin
+- 1: stdout
+- 2: stderr
+
+### Handling stdin
+```shell
+# echo as stdout : >
+$echo "this is the message text" > message.txt
+
+# message.txt as stdin 
+$mail -s "email sent" jake < message.txt
+```
+
+### Handling stdout
+
+```shell
+# create a stdin
+$echo "hello world"
+
+# toss it to stdout : create a helloWorld.txt whose body is "hello world"
+$echo "hello world" 1>helloWorld.txt
+
+# stdout can be omitted
+$echo "hello world" > helloWorld.txt
+
+# create if not exists , append if exists
+$echo "goodbye world" >> helloWorld.txt
+```
+
+### Handling stderr
+
+```shell
+# save ls result to stdout myDirList
+$ls > myDirList
+# read the stdout myDirList
+$cat myDirList
+# wrong command to write stderr. the result of lsss is saved in err.txt
+$lsss 2> err.txt
+# check the stderr
+$cat err.txt
+```
+
+### Handling pipe
+> The Pipe is a command in Linux that lets you use two or more commands such that output of one command serves as input to the next. In short, the output of each process directly as input to the next one like a pipeline. The symbol ‘|’ denotes a pipe.
+
+> Pipes help you mash-up two or more commands at the same time and run them consecutively. You can use powerful commands which can perform complex tasks in a jiffy.
+
+```shell
+# read error.txt all at once 
+$cat error.txt 
+
+# read error.txt per page, exit with q
+# take cat's output and deliver to less as input.
+$cat error.txt | less
+```
+
+## Filter output
+You can combine multiple commands to filter things out. 
+
+```shell
+# create a test.txt and read it. 
+$touch test.txt && cat test.txt
+```
+
+### Cut
+Cut is used to cut fields. If test.txt contains the following texts, 
+```
+line one: jake
+line two: sung
+line three: cool
+```
+
+then it can be cut out with below command,
+
+```shell
+$cat test.txt | cut -d: -f 2
+```
+
+and it came out as 
+```
+ jake
+ sung
+ cool
+```
+
+### Grep
+grep is a searching command. For example, 
+
+```shell
+$cat test.txt | grep jake
+```
+
+and then it will come out as, 
+
+```
+line one: jake
+```
+
+You can find all matches with ./* options. 
+
+```shell 
+$grep jake ./*
+```
+
+and then result will be like, 
+
+```
+./cut.txt:line one: jake
+./cut.txt:line four : not jake
+```
 
 
 
 ## Reference
 - [Linux basic course - tutoriaLinux](https://youtube.com/playlist?list=PLtK75qxsQaMLZSo7KL-PmiRarU7hrpnwK)
 - [Linux Command Line Tutorial For Beginners | Bash Terminal | Linux Terminal](https://youtube.com/playlist?list=PLS1QulWo1RIb9WVQGJ_vh-RQusbZgO_As)
+- [Pipe, Grep and Sort Command in Linux/Unix with Examples](https://www.guru99.com/linux-pipe-grep.html)
