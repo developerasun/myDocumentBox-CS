@@ -67,7 +67,11 @@ $pwd
 $ls /
 # list all items including hidden ones
 $ls -a
+# list itmes in a long listing format(including permission)
+$ls -l
 ```
+
+<img src="reference/file-permission.png" width=555 height=149 alt="chekcing file permission in Ubuntu" />
 
 - mkdir : make a directory
 
@@ -261,6 +265,134 @@ and then result will be like,
 ./cut.txt:line one: jake
 ./cut.txt:line four : not jake
 ```
+
+## Package management
+> Ubuntu’s package management system is derived from the same system used by the Debian GNU/Linux distribution. The package files contain all of the necessary files, meta-data, and instructions to implement a particular functionality or software application on your Ubuntu computer.
+
+> Debian package files typically have the extension .deb, and usually exist in repositories which are collections of packages found online or on physical media, such as CD-ROM discs. Packages are normally in a pre-compiled binary format; thus installation is quick and requires no compiling of software.
+
+> Many packages use dependencies. Dependencies are additional packages required by the principal package in order to function properly. For example, the speech synthesis package festival depends upon the package alsa-utils, which is a package supplying the ALSA sound library tools needed for audio playback. In order for festival to function, it and all of its dependencies must be installed. The software management tools in Ubuntu will do this automatically.
+
+### Apt : Advanced Packaging Tool
+> The apt command is a powerful command-line tool, which works with Ubuntu’s Advanced Packaging Tool (APT) performing such functions as installation of new software packages, upgrade of existing software packages, updating of the package list index, and even upgrading the entire Ubuntu system.
+
+1. Install a package : Installation of packages using the apt tool is quite simple. For example, to install the nmap network scanner, type the following:
+
+```shell
+$sudo apt install nmap
+```
+
+1. Remove a Package: Removal of a package (or packages) is also straightforward. To remove the package installed in the previous example, type the following:
+
+```shell
+$sudo apt remove nmap
+```
+
+1. Update the Package Index: The APT package index is essentially a database of available packages from the repositories defined in the /etc/apt/sources.list file and in the /etc/apt/sources.list.d directory. To update the local package index with the latest changes made in the repositories, type the following:
+
+```shell
+$sudo apt update
+```
+
+> Scripting: While apt is a command-line tool, it is intended to be used interactively, and not to be called from non-interactive scripts. The apt-get command should be used in scripts (perhaps with the --quiet flag). For basic commands the syntax of the two tools is identical.
+
+## User management
+> User management is a critical part of maintaining a secure system. Ineffective user and privilege management often lead many systems into being compromised. Therefore, it is important that you understand how you can protect your server through simple and effective user account management techniques.
+
+### Root
+> Ubuntu developers made a conscientious decision to disable the administrative root account by default in all Ubuntu installations. This does not mean that the root account has been deleted or that it may not be accessed. It merely has been given a password hash which matches no possible value, therefore may not log in directly by itself.
+
+> Instead, users are encouraged to make use of a tool by the name of ‘sudo’ to carry out system administrative duties. Sudo allows an authorized user to temporarily elevate their privileges using their own password instead of having to know the password belonging to the root account. This simple yet effective methodology provides accountability for all user actions, and gives the administrator granular control over which actions a user can perform with said privileges.
+
+Modify user account with usermod command. For example, you can assign sudo previlege to an account like below. 
+
+```shell 
+# in root account, 
+$usermod -aG sudo (username)
+```
+
+And then switch to the account to do things. 
+
+```shell
+# -l : login flag => Start the shell as a login shell with an environment similar to a real login:
+$su -l (username)
+```
+
+### Adding and Deleting Users
+> The process for managing local users and groups is straightforward and differs very little from most other GNU/Linux operating systems. Ubuntu and other Debian based distributions encourage the use of the ‘adduser’ package for account management.
+
+> To add a user account, use the following syntax, and follow the prompts to give the account a password and identifiable characteristics, such as a full name, phone number, etc.
+
+```shell 
+$sudo adduser (username)
+```
+
+<img src="reference/adduser-jake.png" width=540 height=333 alt="adding user in Ubuntu" />
+
+```shell 
+$sudo deluser (username)
+```
+
+> Deleting an account does not remove their respective home folder. It is up to you whether or not you wish to delete the folder manually or keep it according to your desired retention policies. Remember, any user added later on with the same UID/GID as the previous owner will now have access to this folder if you have not taken the necessary precautions.
+
+Once a new user is created, you can switch to the user from root with below command,
+
+```shell
+$su -l (username)
+```
+
+## User profile security
+> When a new user is created, the adduser utility creates a brand new home directory named /home/username. The default profile is modeled after the contents found in the directory of /etc/skel, which includes all profile basics.
+
+> If your server will be home to multiple users, you should pay close attention to the user home directory permissions to ensure confidentiality. By default, user home directories in Ubuntu are created with world read/execute permissions. This means that all users can browse and access the contents of other users home directories. This may not be suitable for your environment.
+
+## Permission
+> In Linux and Unix, everything is a file. Directories are files, files are files and devices are files. Devices are usually referred to as a node; however, they are still files. All of the files on a system have permissions that allow or prevent others from viewing, modifying or executing. If the file is of type Directory then it restricts different actions than files and device nodes. 
+
+> The super user "root" has the ability to access any file on the system. Each file has access restrictions with permissions, user restrictions with owner/group association. Permissions are referred to as bits.
+
+> To change or edit files that are owned by root, sudo must be used - please see RootSudo for details. If the owner read & execute bit are on, then the permissions are:
+
+```
+-r-x------
+```
+
+### Restriction
+> There are three types of access restrictions:
+
+|Permission|Action    |chmod option|
+|:--------:|:--------:|:----------:|
+|read      |(view)    |r or 4      |
+|write     |(edit)    |w or 2      |
+|execute   |(execute) |x or 1      |
+
+> There are also three types of user restrictions:
+
+|User     |ls output |
+|:-------:|:--------:|
+|owner    |-rwx------|
+|group    |----rwx---|
+|other    |-------rwx|
+
+> Directories have directory permissions. The directory permissions restrict different actions than with files or device nodes. Write access for a directory allows deleting of files in the directory even if the user does not have write permissions for the file!
+
+### Changing permission
+> The command to use when modifying permissions is chmod. There are two ways to modify permissions, with numbers or with letters. Using letters is easier to understand for most people. When modifying permissions be careful not to create security problems. Some files are configured to have very restrictive permissions to prevent unauthorized access. For example, the /etc/shadow file (file that stores all local user passwords) does not have permissions for regular users to read or otherwise access.
+
+|Owner       |Group       |Other                |
+|:----------:|:----------:|:-------------------:|
+|read & write|read & write|read, write & execute|
+|4+2=6       |4+2=6       |4+2+1=7              |
+
+> For example if you want a file that has -rw-rw-rwx permissions you will use the following:
+
+```shell
+# owner : read(4) & write(2) => 4+2 = 6 
+# group : read(4) & write(2) => 4+2 = 6
+# others : read(4) & write(2) & execute(1) => 4+2+1 = 7
+$chmod 667 filename
+```
+
 
 
 
